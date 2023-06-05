@@ -1,0 +1,431 @@
+{
+	"info": {
+		"_postman_id": "cc03b3d6-317e-4581-b465-11e1382cd2db",
+		"name": "Google maps dummy api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add place",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"place_id\", jsonData.place_id);",
+							"",
+							"pm.test(\"Verify that status should be OK\", function () {",
+							"    pm.expect(jsonData.status).to.equal(\"OK\");",
+							"});",
+							"",
+							"pm.test(\"Verify that place_id is present in response body.\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"place_id\");",
+							"});",
+							"",
+							"pm.test(\"Verify that scope should be APP\", function () {",
+							"    pm.expect(jsonData.scope).to.equal(\"APP\");",
+							"});",
+							"",
+							"pm.test(\"Verify that reference is present in response body.\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"reference\");",
+							"});",
+							"",
+							"pm.test(\"Verify that id is present in response body.\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"id\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"id": "1c5a44ba-eadf-4c86-9fd0-38fc1ebce89b"
+					}
+				}
+			],
+			"_postman_id": "d99a90ea-ff18-4a9c-bbfd-aee03b19db4f",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"location\": {\n    \"lat\": {{location_lat}},\n    \"lng\": {{location_lng}}\n  },\n  \"accuracy\": {{accuracy}},\n  \"name\": \"{{name}}\",\n  \"phone_number\": \"{{phone}}\",\n  \"address\": \"{{address}}\",\n  \"types\": [\n    \"{{types_1}}\",\n    \"{{types_2}}\"\n  ],\n  \"website\": \"{{website}}\",\n  \"language\": \"{{language}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/maps/api/place/add/json?key={{key}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"maps",
+						"api",
+						"place",
+						"add",
+						"json"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get place",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Verify that location lat is as expected\", function () {",
+							"    pm.expect(jsonData.location.latitude).to.equal(pm.environment.get(\"location_lat\"));",
+							"});",
+							"",
+							"pm.test(\"Verify that location long is as expected\", function () {",
+							"    pm.expect(jsonData.location.longitude).to.equal(pm.environment.get(\"location_lng\"));",
+							"});",
+							"",
+							"pm.test(\"Verify that accuracy is as expected\", function () {",
+							"    pm.expect(jsonData.accuracy).to.equal(pm.environment.get(\"accuracy\"));",
+							"});",
+							"",
+							"pm.test(\"Verify that name is as expected\", function () {",
+							"    pm.expect(jsonData.name).to.equal(pm.environment.get(\"name\"));",
+							"});",
+							"",
+							"pm.test(\"Verify that phone_number is as expected\", function () {",
+							"    pm.expect(jsonData.phone_number).to.equal(pm.environment.get(\"phone\"));",
+							"});",
+							"",
+							"pm.test(\"Verify that address is as expected\", function () {",
+							"    pm.expect(jsonData.address).to.equal(pm.environment.get(\"address\"));",
+							"});",
+							"",
+							"pm.test(\"Verify that type 1 is as expected\", function () {",
+							"    pm.expect(jsonData.types).to.include(pm.environment.get(\"types_1\"));",
+							"});",
+							"",
+							"pm.test(\"Verify that type 2 is as expected\", function () {",
+							"    pm.expect(jsonData.types).to.include(pm.environment.get(\"types_2\"));",
+							"});",
+							"",
+							"pm.test(\"Verify that website is as expected\", function () {",
+							"    pm.expect(jsonData.website).to.equal(pm.environment.get(\"website\"));",
+							"});",
+							"",
+							"pm.test(\"Verify that language is as expected\", function () {",
+							"    pm.expect(jsonData.language).to.equal(pm.environment.get(\"language\"));",
+							"});"
+						],
+						"type": "text/javascript",
+						"id": "67189bf3-f160-4270-a113-706580c74dde"
+					}
+				}
+			],
+			"_postman_id": "cbe0b56d-dab6-4c6e-b40c-1eda4b30bbf6",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/maps/api/place/get/json?key={{key}}&place_id={{place_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"maps",
+						"api",
+						"place",
+						"get",
+						"json"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "place_id",
+							"value": "{{place_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update place",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Verify that message is as expected\", function () {",
+							"    pm.expect(jsonData.msg).to.equal(\"Address successfully updated\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"id": "a0796352-7db8-443a-aa93-0529c865fa25"
+					}
+				}
+			],
+			"_postman_id": "fd94b403-a036-41a8-83ab-4aa5dc079614",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"place_id\":\"{{place_id}}\",\n\"address\":\"{{address_update}}\",\n\"key\": \"{{key}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/maps/api/place/update/json?key={{key}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"maps",
+						"api",
+						"place",
+						"update",
+						"json"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get place after PUT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Verify that location lat is as expected\", function () {",
+							"    pm.expect(jsonData.location.latitude).to.equal(pm.environment.get(\"location_lat\"));",
+							"});",
+							"",
+							"pm.test(\"Verify that location long is as expected\", function () {",
+							"    pm.expect(jsonData.location.longitude).to.equal(pm.environment.get(\"location_lng\"));",
+							"});",
+							"",
+							"pm.test(\"Verify that accuracy is as expected\", function () {",
+							"    pm.expect(jsonData.accuracy).to.equal(pm.environment.get(\"accuracy\"));",
+							"});",
+							"",
+							"pm.test(\"Verify that name is as expected\", function () {",
+							"    pm.expect(jsonData.name).to.equal(pm.environment.get(\"name\"));",
+							"});",
+							"",
+							"pm.test(\"Verify that phone_number is as expected\", function () {",
+							"    pm.expect(jsonData.phone_number).to.equal(pm.environment.get(\"phone\"));",
+							"});",
+							"",
+							"pm.test(\"Verify that address is as expected\", function () {",
+							"    pm.expect(jsonData.address).to.equal(pm.environment.get(\"address_update\"));",
+							"});",
+							"",
+							"pm.test(\"Verify that type 1 is as expected\", function () {",
+							"    pm.expect(jsonData.types).to.include(pm.environment.get(\"types_1\"));",
+							"});",
+							"",
+							"pm.test(\"Verify that type 2 is as expected\", function () {",
+							"    pm.expect(jsonData.types).to.include(pm.environment.get(\"types_2\"));",
+							"});",
+							"",
+							"pm.test(\"Verify that website is as expected\", function () {",
+							"    pm.expect(jsonData.website).to.equal(pm.environment.get(\"website\"));",
+							"});",
+							"",
+							"pm.test(\"Verify that language is as expected\", function () {",
+							"    pm.expect(jsonData.language).to.equal(pm.environment.get(\"language\"));",
+							"});"
+						],
+						"type": "text/javascript",
+						"id": "b6b93ff5-738e-4c44-a573-a1e89c8a4a86"
+					}
+				}
+			],
+			"_postman_id": "b4e45c84-e6b3-4e4c-abec-a9d8a781fc0e",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/maps/api/place/get/json?key={{key}}&place_id={{place_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"maps",
+						"api",
+						"place",
+						"get",
+						"json"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "place_id",
+							"value": "{{place_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete place",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"id": "c547e5df-7222-4674-88f7-13df7edeaee9"
+					}
+				}
+			],
+			"_postman_id": "9db0528a-f516-4e50-9bf9-3378b6ef499e",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"place_id\" : \"{{place_id}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/maps/api/place/delete/json?key={{key}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"maps",
+						"api",
+						"place",
+						"delete",
+						"json"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get place after Delete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404 - means place is deleted\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						],
+						"type": "text/javascript",
+						"id": "dd641428-7f52-42e3-9b4c-c88d07626c6f"
+					}
+				}
+			],
+			"_postman_id": "1ac85a62-bd2d-4b09-b403-fe7223ef80af",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/maps/api/place/get/json?key={{key}}&place_id={{place_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"maps",
+						"api",
+						"place",
+						"get",
+						"json"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "place_id",
+							"value": "{{place_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
